@@ -27,12 +27,22 @@ It captures raw NV12 frames from a UVC camera directly to the GPU's VRAM, perfor
 ## 📊 Performance & Benchmarks
 
 ### Glass-to-Glass Latency Test
-We performed a "Glass-to-Glass" benchmark measuring the time between a real-world event and its rendering on the monitor.
+A "Glass-to-Glass" benchmark measuring the time between a real-world event and its rendering on the monitor.
 
 ![Latency Benchmark](imgs/Benchmark.png)
 
 * **Average Latency:** ~248ms
 * **Target:** Sufficient for 98% of surveillance and CV applications.
+
+Both stopwatches are displayed on the same monitor screen running on the same computer. 
+The one on the left is the UVC camera rendering to the monitor, and the one on the right is the actual stopwatch running as the control or master clock.
+
+So the average latency is ~248 milliseconds. This is actually good enough for what I currently need. 
+A latency of a quarter of a second is sufficient for 98% of applications. 
+The control computer is running a Windows 10 build which is loaded with bugs and software introducing more latency, certainly adding at least 50ms. 
+
+The camera’s physical pipeline also goes through many hardware obstacles, such as a generic low cost CCTV to HDMI converter box and then to a generic HDMI to USB converter box. 
+These alone can introduce around 70ms to 170ms+ of unavoidable latency. More expensive converter units can bring down the latency to 16ms each if needed.
 
 **Note on Hardware Constraints:**
 The measured 248ms includes significant hardware overhead external to the software pipeline:
