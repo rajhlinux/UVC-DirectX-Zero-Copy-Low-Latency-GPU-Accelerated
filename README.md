@@ -1,4 +1,4 @@
-# DirectX Zero-Copy Video Pipeline
+# DirectX Zero-Copy Video Pipeline - NV12 to RGB
 
 **A high-performance, low-latency video streaming application utilizing a hybrid DirectX 11 & 12 architecture for "Zero-Copy" capture and presentation.**
 
@@ -41,6 +41,17 @@ The measured 248ms includes significant hardware overhead external to the softwa
 * **CPU:** Tested on an AMD FX 3850.
 
 *Using enterprise-grade capture cards can reduce hardware latency to ~16ms, significantly lowering the total glass-to-glass time.*
+
+---
+
+## 🎥 Example of Camera Setup - Universal Camera Ingestion Pipeline:
+
+### This setup example below provides a flexible hardware pipeline to ingest video from diverse external camera sources into a PC for computer vision applications.
+#### Analog CCTV BNC 4K Camera
+
+By leveraging signal converters (such as the BNC-to-HDMI shown) alongside a USB capture card, nearly any standard camera hardware can be treated as a plug-and-play video source. This approach ensures complete freedom in selecting camera hardware independent of the host computer's native interfaces, enabling agnostic processing pipelines.
+
+![Camera Setup Overview](imgs/Camera_Setup_Example.png)
 
 ---
 
@@ -94,7 +105,7 @@ A detailed look at how the Flip Model manages back buffers to reduce latency:
 * **Camera:** Any UVC-compliant device (Webcam, HDMI Capture Card, etc.).
 
 
-# 🎥 D3D12 Low Latency Hardware Streamer
+## 📹 D3D12 Low Latency Hardware Streamer
 
 **File:** `main.cpp`
 
@@ -111,7 +122,7 @@ This project implements a high-performance, low-latency video streaming pipeline
 
 ---
 
-## 🛠️ Build Process
+# 🛠️ Build Process
 
 ### Prerequisites
 
