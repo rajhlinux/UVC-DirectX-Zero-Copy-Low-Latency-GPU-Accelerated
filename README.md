@@ -93,20 +93,65 @@ A detailed look at how the Flip Model manages back buffers to reduce latency:
 * **GPU:** Must support DirectX 12 and NV12 texture formats (Most modern NVIDIA/AMD/Intel GPUs).
 * **Camera:** Any UVC-compliant device (Webcam, HDMI Capture Card, etc.).
 
-## 🛠️ Building the Project
 
-1.  Clone the repository:
-    ```bash
-    git clone [https://github.com/rajhlinux/UVC-DirectX-Zero-Copy-Low-Latency-GPU-Accelerated.git](https://github.com/rajhlinux/UVC-DirectX-Zero-Copy-Low-Latency-GPU-Accelerated.git)
-    ```
-2.  Open the solution file in **Visual Studio 2019/2022**.
-3.  Ensure the **Windows 10/11 SDK** is installed.
-4.  Build for `Release` / `x64`.
+# 🎥 D3D12 Low Latency Hardware Streamer
+
+**File:** `main.cpp`
+
+This project implements a high-performance, low-latency video streaming pipeline. It captures 1080p video (NV12) using Media Foundation (D3D11), transfers it to DirectX 12, uses the GPU Video Engine for color conversion, and renders it to the screen.
+
+---
+
+## ⚙️ Features
+
+* **Hybrid Pipeline:** Uses D3D11 for capture and D3D12 for processing/display.
+* **Zero-Copy Interop:** Shares resources between D3D11 and D3D12 using shared handles.
+* **Hardware Acceleration:** Uses the dedicated D3D12 Video Processor for NV12 $\to$ RGBA conversion.
+* **Low Latency:** Implements `DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT` with a maximum latency of 1 frame.
+
+---
+
+## 🛠️ Build Process
+
+### Prerequisites
+
+* **Visual Studio 2022**
+* **Windows SDK** (includes DirectX and Media Foundation headers)
+* **Note:** The build commands below utilize specific paths on the `F:` drive as defined in the source code. Ensure these paths exist or adjust them to match your environment.
+
+### 1. Initialize Environment
+
+Open a standard Command Prompt (`cmd.exe`) and initialize the 64-bit build environment:
+
+```cmd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
+````
+
+### 2\. Compile
+
+Run the compiler (`cl`) with the C++20 standard. Note the inclusion of specific `vcpkg` include and library paths as required by the source configuration:
+
+```cmd
+cl /EHsc /std:c++20 main.cpp /Fe:main.exe /I "C:\dev\vcpkg\installed\x64-windows\include" /link /LIBPATH:"C:\dev\vcpkg\installed\x64-windows\lib" mfplat.lib mf.lib mfreadwrite.lib mfuuid.lib ole32.lib d3d12.lib dxgi.lib dxguid.lib
+```
+
+> **Note:** The `/Fe:main.exe` flag names the output executable `main.exe`.
+
+-----
+
+## 🚀 How to Run
+
+Ensure your webcam is connected (defaults to the first USB 3.0 device found), then run the executable:
+
+```cmd
+main.exe
+```
+
+### Controls
+
+  * The window will open at 1920x1080.
+  * Close the window to exit the application.
 
 ## 🤝 Contributing
 
-This project is intended as a reference implementation for low-level graphics programming. Pull requests optimizing the pipeline or adding support for Compute Shaders / AI integration are welcome.
-
-## 📄 License
-
-[MIT License](LICENSE)
+This project is intended as a reference implementation for low-level graphics programming. Pull requests optimizing the pipeline or adding support for Compute Shaders / AI integration / OS porting are welcomed.
